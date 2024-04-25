@@ -44,6 +44,10 @@ in the REST API. If and when more functionality is exposed
 on the server side, this package will be updated to take
 advantage of it.
 
+**Restriction: The KEGG API is provided for academic use by academic
+users belonging to academic institutions. See https://www.kegg.jp/kegg/rest/
+for more information.**
+
 ## Overview
 
 The KEGG REST API is built on some simple operations:
