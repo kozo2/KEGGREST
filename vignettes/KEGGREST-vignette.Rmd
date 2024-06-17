@@ -1,8 +1,14 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Accessing the KEGG REST API}
--->
-
+---
+title: "Accessing the KEGG REST API"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+vignette: >
+  %\VignetteIndexEntry{Accessing the KEGG REST API}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output:
+  BiocStyle::html_document:
+    toc: true
+---
 
 ```{r setup, echo=FALSE}
 library(knitr)
@@ -48,6 +54,17 @@ advantage of it.
 users belonging to academic institutions. See https://www.kegg.jp/kegg/rest/
 for more information.**
 
+## Installation
+
+You can install `KEGGREST` from Bioconductor with:
+
+```{r install,eval=FALSE}
+if (!require("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("KEGGREST")
+```
+
 ## Overview
 
 The KEGG REST API is built on some simple operations:
@@ -57,7 +74,7 @@ The corresponding `R` functions in `KEGGREST` are:
 `keggConv`, and `keggLink()`.
 
 
-## Exploring KEGG Resources with `keggList()`
+# Exploring KEGG Resources with `keggList()`
 
 KEGG exposes a number of databases. To get an idea of
 what is available, run `listDatabases()`:
@@ -96,7 +113,7 @@ database as follows:
 keggList("hsa")
 ```
 
-## Get specific entries with `keggGet()`
+# Get specific entries with `keggGet()`
 
 Once you have a list of specific KEGG identifiers, use
 `keggGet()` to get more information about them. Here we look up
@@ -150,7 +167,7 @@ __NOTE__: `keggGet()` can only return 10 result sets at once (this limitation
 is on the server side). If you supply more than 10 inputs to `keggGet()`, 
 `KEGGREST` will warn that only the first 10 results will be returned.
 
-## Search by keywords with `keggFind()`
+# Search by keywords with `keggFind()`
 
 You can search for two separate keywords ("shiga" and "toxin" in this case):
 
@@ -188,7 +205,7 @@ Integer ranges can be used to find compounds by molecular weight:
 head(keggFind("compound", 300:310, "mol_weight"))
 ```
 
-## Convert identifiers with `keggConv()`
+# Convert identifiers with `keggConv()`
 
 Convert between KEGG identifiers and outside identifiers.
 
@@ -211,7 +228,7 @@ head(keggConv("ncbi-geneid", "eco"))
 
 ```
 
-## Link across databases with `keggLink()`
+# Link across databases with `keggLink()`
 
 Most of the `KEGGSOAP` functions whose names started with
 "get", for example `get.pathways.by.genes()`, can be replaced

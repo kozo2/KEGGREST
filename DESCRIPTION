@@ -15,7 +15,7 @@ Authors@R: c(
     )
 Depends: R (>= 3.5.0)
 Imports: methods, httr, png, Biostrings
-Suggests: RUnit, BiocGenerics, knitr, markdown
+Suggests: RUnit, BiocGenerics, BiocStyle, knitr, markdown
 Description:
     A package that provides a client interface to the Kyoto
     Encyclopedia of Genes and Genomes (KEGG) REST API. Only
