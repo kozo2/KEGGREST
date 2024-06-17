@@ -27,6 +27,7 @@ keggFind <- function(database, query,
         option <- match.arg(option)
     if (is.integer(query) && length(query) > 1)
         query <- sprintf("%s-%s", min(query), max(query))
+    query <- gsub("\\s", "+", query)
     query <- paste(query, collapse="+")
     url <- sprintf("%s/find/%s/%s", .getRootUrl(), database, query)
     if (!missing(option))
