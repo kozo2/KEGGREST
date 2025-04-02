@@ -242,7 +242,7 @@ flatFileRecordGen <- setRefClass("KEGGFlatFileRecord",
         },
         setBody=function(body)
         {
-            if (.self$lastField == "REFERENCE")
+            if (!is.null(.self$lastField) && !is.na(.self$lastField) && .self$lastField == "REFERENCE")
             {
                 if(length(.self$lastSubfield))
                 {
@@ -273,7 +273,8 @@ flatFileRecordGen <- setRefClass("KEGGFlatFileRecord",
                 } else {
                     if (is.null(.self$fields[[.self$lastField]][[.self$lastField]]))
                         .self$fields[[.self$lastField]][[.self$lastField]] <- c()
-                    .self$fields[[.self$lastField]][[.self$lastField]] <- c(
+                    if (!is.null(.self$lastField) && !is.na(.self$lastField))
+                        .self$fields[[.self$lastField]][[.self$lastField]] <- c(
                         .self$fields[[.self$lastField]][[.self$lastField]], body)
                 }
             }
