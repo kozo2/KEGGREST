@@ -27,6 +27,7 @@ keggFind <- function(database, query,
         option <- match.arg(option)
     if (is.integer(query) && length(query) > 1)
         query <- sprintf("%s-%s", min(query), max(query))
+    query <- gsub("\\s", "+", query)
     query <- paste(query, collapse="+")
     url <- sprintf("%s/find/%s/%s", .getRootUrl(), database, query)
     if (!missing(option))
@@ -66,9 +67,15 @@ keggGet <- function(dbentries,
     .getUrl(url, .flatFileParser)
 }
 
+keggCompounds <- function(pathwayID)
+{
+    url <- sprintf("%s/link/cpd/%s", .getRootUrl(), pathwayID)
+    .getUrl(url, .compoundParser)
+}
+
 .keggConv <- function(target, source)
 {
-    query <-paste(source, collapse = "+") 
+    query <-paste(source, collapse = "+")
     url <- sprintf("%s/conv/%s/%s", .getRootUrl(), target, query)
     .getUrl(url, .listParser, nameColumn = 1, valueColumn = 2)
 }
@@ -92,7 +99,7 @@ keggLink <- function(target, source)
             .getRootUrl(), target, paste(source, collapse="+"))
     .getUrl(url, .listParser, nameColumn=1, valueColumn=2)
 
-    }   
+    }
     ## FIXME?? keggLink("pathway",c("hsa:10458", "ece:Z5100"))
     ## returns a list with duplicate names
 }
@@ -116,7 +123,7 @@ mark.pathway.by.objects <- function(pathway.id, object.id.list)
         pathway.id <- sprintf("%s+%s", pathway.id, object.id.list)
     }
     url <- sprintf("https://www.kegg.jp/pathway/%s", pathway.id)
-    .get.tmp.url(url)
+    .get.kegg.url(url)
 }
 
 ## This is not strictly speaking an API supported by the KEGG REST
@@ -151,10 +158,10 @@ color.pathway.by.objects <- function(pathway.id, object.id.list,
     # fetch KEGG page from server, via a 302 redirect handled by httr
     # transparently
     res <- POST(
-        url = "https://www.kegg.jp/kegg-bin/mcolor_pathway",
+        url = "https://www.kegg.jp/kegg-bin/show_pathway",
         body = list(
             map = pathway.id,
-            unclassified = payload,
+            multi_query = payload,
             mode = 'color'
         ),
         encode="multipart"
